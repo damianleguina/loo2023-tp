@@ -1,0 +1,31 @@
+Trabajo a realizar para el final en formato individual
+
+Se debe mostrar en clases de consulta para los avances
+
+Se basará en Java gráfico local usando JFrame y matrices
+
+Solo podrá rendir aquel alumno que haya sido autorizado por el docente
+
+Enunciado:
+
+Se necesita desarrollar una aplicación en Java que permita a usuarios manejar una fotocopiadora y sus trabajos. La aplicación debe contar con un sistema de ingreso con clave para cada usuario. Una vez que los usuarios hayan ingresado, la aplicación debe permitirles realizar las siguientes acciones:
+
+1. Usuario administrador:
+1.a (crear, activar o desactivar usuarios - cambiar de estado los trabajos, pendiente, recibido, en ejecución, terminado, entregado)
+1.b Ver lista de trabajos en cada etapa  (usuario, encargado de trabajo, cantidad de copias, calidad de copia (color, byn), estado, fecha de entrada, fecha de terminado, fecha de entrega.
+1-c Listado de trabajos por usuario
+
+2. Usuario normal.
+2.1 Carga de trabajo. Cantidad de copias, título del trabajo. Calidad fotocopia (color, byn)
+2.2 Si el trabajo no está comenzado, eliminar
+2.3 Listado histórico de trabajos encargados
+
+Restricciones:
+
+1. Cada usuario debe tener su propia clave para ingresar a la aplicación.
+
+2. La aplicación no debe permitir que se ingresen valores negativos o cero para el número de páginas o la cantidad de copias.
+
+3. Los usuarios y trabajos deben validarse en un array
+4. Habrá cuatro usuarios hardcodeados. Uno administrador y tres usuario normales
+5. Habrá un array de trabajos con una capacidad de 20 trabajos con sus respectivas características
