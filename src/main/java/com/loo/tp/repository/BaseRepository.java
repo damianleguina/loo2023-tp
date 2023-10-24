@@ -1,7 +1,7 @@
-package repositories;
+package com.loo.tp.repository;
 
-import entities.Entity;
-import repositories.interfaces.Repository;
+import com.loo.tp.entities.Entity;
+import com.loo.tp.repository.interfaces.Repository;
 
 public abstract class BaseRepository<T extends Entity> implements Repository<T> {
     protected final T[] data;

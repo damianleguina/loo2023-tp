@@ -1,6 +1,6 @@
-package repositories.interfaces;
+package com.loo.tp.repository.interfaces;
 
-import entities.User;
+import com.loo.tp.entities.User;
 
 public interface UserRepository extends Repository<User> {
     User getByCredentials(String name, String password);

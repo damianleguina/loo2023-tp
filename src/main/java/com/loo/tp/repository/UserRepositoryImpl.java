@@ -1,16 +1,17 @@
-package repositories;
+package com.loo.tp.repository;
 
-import entities.User;
-import repositories.interfaces.UserRepository;
+import com.loo.tp.entities.User;
+import com.loo.tp.repository.interfaces.UserRepository;
 
 public class UserRepositoryImpl extends BaseRepository<User> implements UserRepository {
 
     public UserRepositoryImpl() {
-        super(new User[4]);
-        data[0] = new User(1, "Blinky", "qwerty", true);
-        data[1] = new User(1, "Pinky", "dvorak", false);
-        data[2] = new User(1, "Inky", "colemak", false);
-        data[3] = new User(1, "Clyde", "qwerty", false);
+        super(new User[] {
+                new User(1, "Blinky", "qwerty", true),
+                new User(1, "Pinky", "dvorak", false),
+                new User(1, "Inky", "colemak", false),
+                new User(1, "Clyde", "qwerty", false),
+        });
     }
 
     public User add(User entity) {
@@ -33,7 +34,7 @@ public class UserRepositoryImpl extends BaseRepository<User> implements UserRepo
 
     public User getByCredentials(String name, String password) {
         for (User user : data) {
-            if (user.getName() == name && user.getPassword() == password) {
+            if (user.getName().equals(name) && user.getPassword().equals(password)) {
                 return user;
             }
         }

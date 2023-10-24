@@ -1,6 +1,6 @@
-package repositories.interfaces;
+package com.loo.tp.repository.interfaces;
 
-import entities.Entity;
+import com.loo.tp.entities.Entity;
 
 public interface Repository<T extends Entity> {
     T getById(long id);

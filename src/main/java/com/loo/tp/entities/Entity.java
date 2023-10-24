@@ -1,7 +1,7 @@
-package entities;
+package com.loo.tp.entities;
 
 public abstract class Entity {
-    long id;
+    private long id;
 
     public Entity(long id) {
         this.id = id;
@@ -14,6 +14,4 @@ public abstract class Entity {
     public void setId(long id) {
         this.id = id;
     }
-
-    
 }
