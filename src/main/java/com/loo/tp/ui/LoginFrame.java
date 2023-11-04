@@ -29,6 +29,7 @@ public class LoginFrame extends JFrame implements ActionListener {
         this.setSize(300, 140);
         this.add(createFormPanel());
         this.add(createActionPanel());
+        this.setVisible(true);
     }
 
     private JPanel createFormPanel() {
@@ -69,22 +70,27 @@ public class LoginFrame extends JFrame implements ActionListener {
     private void handleLogin() {
         var userName = userNameTextField.getText();
         if (userName == null || userName.equals("")) {
-            JOptionPane.showMessageDialog(null, "El campo 'Usuario' tiene un valor inválido", "Usuario inválido", JOptionPane.ERROR_MESSAGE, null);
+            JOptionPane.showMessageDialog(null, "El campo 'Usuario' tiene un valor inválido", "Usuario inválido",
+                    JOptionPane.ERROR_MESSAGE, null);
             return;
         }
         var password = passwordTextField.getText();
         if (password == null || password.equals("")) {
-            JOptionPane.showMessageDialog(null, "El campo 'Contraseña' tiene un valor inválido", "Contraseña inválida", JOptionPane.ERROR_MESSAGE, null);
+            JOptionPane.showMessageDialog(null, "El campo 'Contraseña' tiene un valor inválido", "Contraseña inválida",
+                    JOptionPane.ERROR_MESSAGE, null);
             return;
         }
 
         var response = userController.getUser(userNameTextField.getText(), passwordTextField.getText());
         if (!response.getValue0()) {
-            JOptionPane.showMessageDialog(null, "El usuario o la contraseña es incorrecta", "Error", JOptionPane.ERROR_MESSAGE, null);
+            JOptionPane.showMessageDialog(null, "El usuario o la contraseña es incorrecta", "Error",
+                    JOptionPane.ERROR_MESSAGE, null);
             return;
         }
 
-        System.out.println(response.getValue1());
+        var user = response.getValue1();
+        JOptionPane.showMessageDialog(null, "Ingresando como usuario " + user.getName(), "Éxito",
+                JOptionPane.INFORMATION_MESSAGE, null);
     }
 
     private void handleCancel() {

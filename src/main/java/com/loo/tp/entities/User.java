@@ -1,7 +1,7 @@
 package com.loo.tp.entities;
 
 public class User extends Entity {
-    private final String SALT = "d131dd02c5e6eec4";
+    // private final String SALT = "d131dd02c5e6eec4";
     
     private String name;
     private String password;

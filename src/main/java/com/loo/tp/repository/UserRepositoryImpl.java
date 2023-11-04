@@ -18,10 +18,6 @@ public class UserRepositoryImpl extends BaseRepository<User> implements UserRepo
         throw new UnsupportedOperationException("Unimplemented method 'add'");
     }
 
-    public User update(User entity) {
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
-    }
-
     public boolean delete(long id) {
         for (User user : data) {
             if (user.getId() == id) {

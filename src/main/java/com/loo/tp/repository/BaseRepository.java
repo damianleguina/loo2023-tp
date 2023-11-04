@@ -33,6 +33,15 @@ public abstract class BaseRepository<T extends Entity> implements Repository<T> 
         return null;
     }
 
+    public T update(T t) {
+        for (int i = 0; i < data.length; i++) {
+            if (data[i].getId() == t.getId()) {
+                data[i] = t;
+            }
+        }
+        return null;
+    }
+
     public boolean delete(long id) {
         for (int i = 0; i < data.length; i++) {
             if (data[i].getId() == id) {
@@ -42,5 +51,4 @@ public abstract class BaseRepository<T extends Entity> implements Repository<T> 
         }
         return false;
     }
-
 }
