@@ -37,10 +37,20 @@ public class PrintInfoFrame extends ContextualFrame<Object[]> {
 
     @Override
     protected void init() {
-
         this.printController = ControllerFactory.getPrintController();
         Pair<Boolean, Print> result = printController.getById((long) this.context[0]);
         this.print = result.getValue1();
+    }
+
+    @Override 
+    protected boolean shouldRender() {
+        return this.print != null;
+    }
+
+    @Override
+    protected void onFailure() {
+        new MenuFrame();
+        this.close();
     }
 
     @Override

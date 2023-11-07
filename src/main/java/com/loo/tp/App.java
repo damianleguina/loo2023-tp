@@ -12,7 +12,7 @@ public class App {
         ControllerFactory.init();
         var userController = ControllerFactory.getUserController();
         userController.getUser("Blinky", "qwerty");
-        new PrintsListFrame();
+        new MenuFrame();
         // new LoginFrame();
     }
 }

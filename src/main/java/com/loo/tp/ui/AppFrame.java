@@ -10,6 +10,6 @@ public abstract class AppFrame extends BaseFrame {
             this.setLocationRelativeTo(null);
             return;
         }
-        this.close();
+        this.onFailure();
     }
 }

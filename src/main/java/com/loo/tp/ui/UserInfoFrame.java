@@ -77,6 +77,17 @@ public class UserInfoFrame extends ContextualFrame<Long> implements ListSelectio
     }
 
     @Override
+    protected boolean shouldRender() {
+        return user != null;
+    }
+
+    @Override
+    protected void onFailure() {
+        new MenuFrame();
+        this.close();
+    }
+
+    @Override
     protected void render() {
         this.setPreferredSize(new Dimension(800, 400));
         this.renderNorthPanel();

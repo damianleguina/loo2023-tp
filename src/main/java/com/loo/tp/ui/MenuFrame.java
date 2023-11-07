@@ -47,11 +47,13 @@ public class MenuFrame extends AppFrame {
 
     @Override
     protected boolean shouldRender() {
-        if (!sessionController.isLoggedIn()) {
-            new LoginFrame();
-            return false;
-        }
-        return true;
+        return this.sessionController.isLoggedIn();
+    }
+
+    @Override
+    protected void onFailure() {
+        new LoginFrame();
+        this.close();
     }
 
     @Override

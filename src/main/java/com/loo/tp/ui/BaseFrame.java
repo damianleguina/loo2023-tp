@@ -24,6 +24,10 @@ public abstract class BaseFrame extends JFrame implements ActionListener {
 
     protected abstract void render();
 
+    protected void onFailure() {
+        this.close();
+    }
+
     protected JButton createButton(String label, Container container) {
         var button = new JButton(label);
         button.addActionListener(this);

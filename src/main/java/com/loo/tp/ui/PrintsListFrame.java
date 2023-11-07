@@ -63,6 +63,12 @@ public class PrintsListFrame extends AppFrame implements ListSelectionListener {
     }
 
     @Override
+    protected void onFailure() {
+        new MenuFrame();
+        this.close();
+    }
+
+    @Override
     protected void render() {
         this.setPreferredSize(new Dimension(800, 400));
         this.renderCenterPanel();

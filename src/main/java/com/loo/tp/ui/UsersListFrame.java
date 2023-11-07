@@ -62,6 +62,12 @@ public class UsersListFrame extends AppFrame implements ListSelectionListener {
     protected void init() {
         userController = ControllerFactory.getUserController();
     }
+    
+    @Override
+    protected void onFailure() {
+        new MenuFrame();
+        this.close();
+    }
 
     @Override
     protected void render() {
