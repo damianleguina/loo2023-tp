@@ -1,61 +1,36 @@
 package com.loo.tp.ui;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import com.loo.tp.ControllerFactory;
+import com.loo.tp.controllers.SessionController;
 import com.loo.tp.controllers.UserController;
 
-public class LoginFrame extends JFrame implements ActionListener {
+public class LoginFrame extends AppFrame {
+    private SessionController sessionController;
     private UserController userController;
 
     private JTextField userNameTextField;
-    private JTextField passwordTextField;
+    private JPasswordField passwordTextField;
     private JButton loginButton;
     private JButton cancelButton;
 
     public LoginFrame() {
-        this.userController = ControllerFactory.getUserController();
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.setLayout(new GridLayout(0, 1));
-        this.setSize(300, 140);
-        this.add(createFormPanel());
-        this.add(createActionPanel());
-        this.setVisible(true);
-    }
-
-    private JPanel createFormPanel() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(0, 2));
-        this.userNameTextField = new JTextField();
-        panel.add(new JLabel("Usuario: "));
-        panel.add(this.userNameTextField);
-
-        this.passwordTextField = new JTextField();
-        panel.add(new JLabel("Contraseña: "));
-        panel.add(this.passwordTextField);
-        return panel;
-    }
-
-    private JPanel createActionPanel() {
-        JPanel panel = new JPanel();
-
-        this.cancelButton = new JButton("Salir");
-        this.cancelButton.addActionListener(this);
-        panel.add(this.cancelButton);
-
-        this.loginButton = new JButton("Ingresar");
-        this.loginButton.addActionListener(this);
-        panel.add(this.loginButton);
-        return panel;
+        super();
     }
 
     @Override
@@ -65,6 +40,58 @@ public class LoginFrame extends JFrame implements ActionListener {
         } else {
             this.handleCancel();
         }
+    }
+
+    @Override
+    protected void init() {
+        this.sessionController = ControllerFactory.getSessionController();
+        this.userController = ControllerFactory.getUserController();
+    }
+
+    @Override
+    protected boolean shouldRender() {
+        if (sessionController.isLoggedIn()) {
+            new MenuFrame();
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    protected void render() {
+        this.setPreferredSize(new Dimension(300, 110));
+        this.setLocationRelativeTo(null);
+        this.renderFormPanel();
+        this.renderActionPanel();
+    }
+
+    private void renderFormPanel() {
+        var panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.add(Box.createRigidArea(new Dimension(10, 5)));
+
+        var userFieldPanel = new JPanel();
+        userFieldPanel.setLayout(new GridLayout(0, 2));
+        this.userNameTextField = new JTextField();
+        userFieldPanel.add(new JLabel("Usuario: "));
+        userFieldPanel.add(this.userNameTextField);
+        panel.add(userFieldPanel);
+
+        var passwordFieldPanel = new JPanel();
+        passwordFieldPanel.setLayout(new GridLayout(0, 2));
+        this.passwordTextField = new JPasswordField();
+        passwordFieldPanel.add(new JLabel("Contraseña: "));
+        passwordFieldPanel.add(this.passwordTextField);
+        panel.add(passwordFieldPanel);
+
+        this.add(panel,BorderLayout.NORTH);
+    }
+
+    private void renderActionPanel() {
+        JPanel panel = new JPanel();
+        this.cancelButton = this.createButton("Salir", panel);
+        this.loginButton = this.createButton("Ingresar", panel);
+        this.add(panel,BorderLayout.SOUTH);
     }
 
     private void handleLogin() {
@@ -88,9 +115,8 @@ public class LoginFrame extends JFrame implements ActionListener {
             return;
         }
 
-        var user = response.getValue1();
-        JOptionPane.showMessageDialog(null, "Ingresando como usuario " + user.getName(), "Éxito",
-                JOptionPane.INFORMATION_MESSAGE, null);
+        new MenuFrame();
+        this.dispose();
     }
 
     private void handleCancel() {

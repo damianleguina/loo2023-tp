@@ -13,15 +13,18 @@ import org.junit.Test;
 
 import com.loo.tp.entities.User;
 import com.loo.tp.repository.interfaces.UserRepository;
+import com.loo.tp.session.SessionManager;
 
 public class UserControllerTest {
     private UserController userController;
     private UserRepository userRepositoryMock;
+    private SessionManager sessionManagerMock;
 
     @Before
     public void setup() {
         userRepositoryMock = mock(UserRepository.class);
-        userController = new UserController(userRepositoryMock);
+        sessionManagerMock = mock(SessionManager.class);
+        userController = new UserController(userRepositoryMock, sessionManagerMock);
     }
 
     @Test
@@ -38,7 +41,6 @@ public class UserControllerTest {
         // Assert
         assertTrue(result.getValue0());
         assertNotNull(result.getValue1());
-
     }
 
     @Test

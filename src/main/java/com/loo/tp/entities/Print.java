@@ -2,29 +2,20 @@ package com.loo.tp.entities;
 
 import java.time.Instant;
 
+import com.loo.tp.enums.PrintQuality;
+import com.loo.tp.enums.PrintStatus;
+
 public class Print extends Entity {
-    enum Quality {
-        BLACK_AND_WHITE,
-        COLOR,
-    }
-
-    enum Status {
-        PENDING,
-        RECEIVED,
-        IN_PROGRESS,
-        FINISHED,
-        DELIVERED
-    }
-
     private long userId;
-    private Quality quality;
+    private PrintQuality quality;
     private int quantity;
-    private Status status;
+    private PrintStatus status;
     private Instant startDate;
     private Instant endDate;
     private Instant deliveryDate;
+    private User user;
 
-    public Print(long id, long userId, Quality quality, int quantity, Status status, Instant startDate, Instant endDate,
+    public Print(long id, long userId, PrintQuality quality, int quantity, PrintStatus status, Instant startDate, Instant endDate,
             Instant deliveryDate) {
         super(id);
         this.userId = userId;
@@ -44,11 +35,11 @@ public class Print extends Entity {
         this.userId = userId;
     }
 
-    public Quality getQuality() {
+    public PrintQuality getQuality() {
         return quality;
     }
 
-    public void setQuality(Quality quality) {
+    public void setQuality(PrintQuality quality) {
         this.quality = quality;
     }
 
@@ -60,11 +51,11 @@ public class Print extends Entity {
         this.quantity = quantity;
     }
 
-    public Status getStatus() {
+    public PrintStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(PrintStatus status) {
         this.status = status;
     }
 
@@ -90,5 +81,13 @@ public class Print extends Entity {
 
     public void setDeliveryDate(Instant deliveryDate) {
         this.deliveryDate = deliveryDate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
