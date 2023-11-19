@@ -37,7 +37,7 @@ public class LoginFrame extends AppFrame {
         var source = e.getSource();
         if (source == loginButton) {
             this.handleLogin();
-        } else if (source == cancelButton) {
+        } else {
             this.handleCancel();
         }
     }
