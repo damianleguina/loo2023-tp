@@ -1,23 +1,26 @@
 package com.loo.tp.controllers;
 
 import org.javatuples.Pair;
+import org.javatuples.Triplet;
 
 import com.loo.tp.entities.User;
 import com.loo.tp.session.SessionManager;
 
 public abstract class BaseController {
+    protected final String USER_IS_NOT_ADMIN_ERROR_MESSAGE = "Usuario no es administrador.";
+
     protected SessionManager sessionManager;
 
     public BaseController(SessionManager sessionManager) {
         this.sessionManager = sessionManager;
     }
 
-    protected <T> Pair<Boolean, T> Ok(T t) {
-        return new Pair<Boolean, T>(true, t);
+    protected <T> Triplet<Boolean, T, String> Ok(T t) {
+        return new Triplet<Boolean, T, String>(true, t, null);
     }
 
-    protected <T> Pair<Boolean, T> Error(T t) {
-        return new Pair<Boolean, T>(false, t);
+    protected <T> Triplet<Boolean, T, String> Error(String str) {
+        return new Triplet<Boolean, T, String>(false, null, str);
     }
 
     protected User getCurrentUser() {

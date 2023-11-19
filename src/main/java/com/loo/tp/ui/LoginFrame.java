@@ -25,9 +25,8 @@ public class LoginFrame extends AppFrame {
     private UserController userController;
 
     private JTextField userNameTextField;
-    private JPasswordField passwordTextField;
+    private JPasswordField passwordField;
     private JButton loginButton;
-    private JButton cancelButton;
 
     public LoginFrame() {
         super();
@@ -55,6 +54,11 @@ public class LoginFrame extends AppFrame {
     }
 
     @Override
+    protected void setDefaultSize() {
+        this.setPreferredSize(new Dimension(300, 110));
+    }
+
+    @Override
     protected void onFailure() {
         new MenuFrame();
         this.close();
@@ -62,7 +66,6 @@ public class LoginFrame extends AppFrame {
 
     @Override
     protected void render() {
-        this.setPreferredSize(new Dimension(300, 110));
         this.setLocationRelativeTo(null);
         this.renderFormPanel();
         this.renderActionPanel();
@@ -82,9 +85,9 @@ public class LoginFrame extends AppFrame {
 
         var passwordFieldPanel = new JPanel();
         passwordFieldPanel.setLayout(new GridLayout(0, 2));
-        this.passwordTextField = new JPasswordField();
+        this.passwordField = new JPasswordField();
         passwordFieldPanel.add(new JLabel("Contraseña: "));
-        passwordFieldPanel.add(this.passwordTextField);
+        passwordFieldPanel.add(this.passwordField);
         panel.add(passwordFieldPanel);
 
         this.add(panel,BorderLayout.NORTH);
@@ -92,7 +95,6 @@ public class LoginFrame extends AppFrame {
 
     private void renderActionPanel() {
         JPanel panel = new JPanel();
-        this.cancelButton = this.createButton("Salir", panel);
         this.loginButton = this.createButton("Ingresar", panel);
         this.add(panel,BorderLayout.SOUTH);
     }
@@ -100,21 +102,18 @@ public class LoginFrame extends AppFrame {
     private void handleLogin() {
         var userName = userNameTextField.getText();
         if (userName == null || userName.equals("")) {
-            JOptionPane.showMessageDialog(null, "El campo 'Usuario' tiene un valor inválido", "Usuario inválido",
-                    JOptionPane.ERROR_MESSAGE, null);
+            this.showErrorDialog("El campo 'Usuario' tiene un valor inválido");
             return;
         }
-        var password = passwordTextField.getText();
+        var password = new String(passwordField.getPassword());
         if (password == null || password.equals("")) {
-            JOptionPane.showMessageDialog(null, "El campo 'Contraseña' tiene un valor inválido", "Contraseña inválida",
-                    JOptionPane.ERROR_MESSAGE, null);
+            this.showErrorDialog("El campo 'Contraseña' tiene un valor inválido");
             return;
         }
 
-        var response = userController.getUser(userNameTextField.getText(), passwordTextField.getText());
+        var response = userController.getUser(userNameTextField.getText(), new String(passwordField.getPassword()));
         if (!response.getValue0()) {
-            JOptionPane.showMessageDialog(null, "El usuario o la contraseña es incorrecta", "Error",
-                    JOptionPane.ERROR_MESSAGE, null);
+            this.showErrorDialog("El usuario o la contraseña es incorrecta");
             return;
         }
 

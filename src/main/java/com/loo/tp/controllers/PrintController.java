@@ -1,6 +1,7 @@
 package com.loo.tp.controllers;
 
 import org.javatuples.Pair;
+import org.javatuples.Triplet;
 
 import com.loo.tp.entities.Print;
 import com.loo.tp.repository.interfaces.PrintRepository;
@@ -20,9 +21,9 @@ public class PrintController extends BaseController {
         this.userRepository = userRepository;
     }
 
-    public Pair<Boolean, Print[]> get() {
+    public Triplet<Boolean, Print[], String> get() {
         if (!this.isAdmin()) {
-            return Error(null);
+            return Error("Usuario no es administrador");
         }
         var prints = printRepository.get();
         for (int i = 0; i < prints.length; i++) {
@@ -31,9 +32,9 @@ public class PrintController extends BaseController {
         return Ok(prints);
     }
 
-    public Pair<Boolean, Print[]> get(long userId) {
+    public Triplet<Boolean, Print[], String> get(long userId) {
         if (!this.isAdmin()) {
-            return Error(null);
+            return Error("Usuario no es administrador");
         }
         var prints = printRepository.getByUserId(userId);
 
@@ -43,9 +44,9 @@ public class PrintController extends BaseController {
         return Ok(prints);
     }
 
-    public Pair<Boolean, Print> getById(long printId) {
+    public Triplet<Boolean, Print, String> getById(long printId) {
         if (!this.isAdmin()) {
-            return Error(null);
+            return Error("Usuario no es administrador");
         }
         var print = printRepository.getById(printId);
         print.setUser(userRepository.getById(print.getUserId()));

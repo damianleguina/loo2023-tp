@@ -2,6 +2,7 @@ package com.loo.tp.repository;
 
 import com.loo.tp.entities.User;
 import com.loo.tp.repository.interfaces.UserRepository;
+import com.loo.tp.utils.ArrayUtils;
 
 public class UserRepositoryImpl extends BaseRepository<User> implements UserRepository {
 
@@ -50,6 +51,18 @@ public class UserRepositoryImpl extends BaseRepository<User> implements UserRepo
             }
         }
         return null;
+    }
+
+    @Override
+    public long changeStatus(long[] userIds, boolean status) {
+        int result = 0;
+        for (User user : data) {
+            if (ArrayUtils.contains(userIds, user.getId())) {
+                user.setActive(status);
+                result++;
+            }
+        }
+        return result;
     }
 
     private static User[] populate() {

@@ -1,5 +1,6 @@
 package com.loo.tp.ui;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 
 import com.loo.tp.ControllerFactory;
 import com.loo.tp.controllers.SessionController;
@@ -18,6 +20,7 @@ public class MenuFrame extends AppFrame {
     private User currentUser;
 
     private JButton listUsersButton;
+    private JButton addUserButton;
     private JButton listPrintsButton;
     private JButton addPrintButton;
     private JButton listMyPrintsButton;
@@ -31,6 +34,8 @@ public class MenuFrame extends AppFrame {
         var source = arg0.getSource();
         if (source == listUsersButton) {
             this.handleListUsersButtonClicked();
+        } else if (source == addUserButton) {
+            this.handleAddUserButton();
         } else if (source == listPrintsButton) {
             this.handleListPrintsButtonClicked();
         } else if (source == logoutButton) {
@@ -58,30 +63,37 @@ public class MenuFrame extends AppFrame {
 
     @Override
     protected void render() {
-        var container = this.getContentPane();
-        this.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
+        var panel = new JPanel();
 
-        this.add(Box.createRigidArea(new Dimension(10, 40)));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         if (this.currentUser.isAdmin()) {
-            this.listUsersButton = this.createButton("Usuarios", container);
-            this.add(Box.createHorizontalStrut(10));
-            this.listPrintsButton = this.createButton("Trabajos", container);
+            panel.add(Box.createRigidArea(new Dimension(10, 10)));
+            this.listUsersButton = this.createButton("Usuarios", panel);
+
+            panel.add(Box.createRigidArea(new Dimension(0, 10)));
+            this.addUserButton = this.createButton("Agregar Usuario", panel);
+
+            panel.add(Box.createRigidArea(new Dimension(0, 10)));
+            this.listPrintsButton = this.createButton("Trabajos", panel);
         } else {
-            this.addPrintButton = this.createButton("Agregar trabajo", container);
-            this.add(Box.createHorizontalStrut(10));
-            this.listMyPrintsButton = this.createButton("Mis trabajos", container);
+            panel.add(Box.createRigidArea(new Dimension(0, 10)));
+            this.addPrintButton = this.createButton("Agregar trabajo", panel);
+            panel.add(Box.createRigidArea(new Dimension(0, 10)));
+            this.listMyPrintsButton = this.createButton("Mis trabajos", panel);
         }
-
-        this.add(Box.createHorizontalStrut(10));
-        this.logoutButton = this.createButton("Salir", container);
-
-        this.add(Box.createRigidArea(new Dimension(10, 40)));
-        this.pack();
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));
+        this.logoutButton = this.createButton("Salir", panel);
+        this.add(panel, BorderLayout.WEST);
     }
 
     private void handleListUsersButtonClicked() {
         new UsersListFrame();
+        this.close();
+    }
+
+    private void handleAddUserButton() {
+        new AddUserFrame();
         this.close();
     }
 

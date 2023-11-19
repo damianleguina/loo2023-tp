@@ -24,7 +24,7 @@ import com.loo.tp.entities.Print;
 import com.loo.tp.entities.User;
 import com.loo.tp.utils.InstantUtils;
 
-public class UserInfoFrame extends ContextualFrame<Long> implements ListSelectionListener {
+public class UserInfoFrame extends ContextFrame<Long> implements ListSelectionListener {
     private UserController userController;
     private PrintController printController;
 
@@ -72,7 +72,7 @@ public class UserInfoFrame extends ContextualFrame<Long> implements ListSelectio
     protected void init() {
         this.userController = ControllerFactory.getUserController();
         this.printController = ControllerFactory.getPrintController();
-        Pair<Boolean, User> result = userController.getById(this.context);
+        var result = userController.getById(this.context);
         this.user = result.getValue1();
     }
 
@@ -131,7 +131,7 @@ public class UserInfoFrame extends ContextualFrame<Long> implements ListSelectio
 
     private DefaultTableModel getTableModel() {
         // User[] users = userController.getUsers().getValue1();
-        Pair<Boolean, Print[]> result = printController.get(this.context);
+        var result = printController.get(this.context);
         var prints = result.getValue1();
         String[] columnNames = { "Id", "Cantidad", "Calidad", "Estado", "Fecha inicio", "Fecha fin",
                 "Fecha entrega" };
@@ -159,7 +159,12 @@ public class UserInfoFrame extends ContextualFrame<Long> implements ListSelectio
     }
 
     private void handleChangeStatusButtonClicked() {
-        this.user.setActive(!this.user.isActive());
+
+        var result = this.userController.changeStatus(user.getId(), !this.user.isActive());
+        if (!result.getValue0()) {
+            this.showErrorDialog(result.getValue2());
+            return;
+        }
         statusLabel.setText("Estado: " + (user.isActive() ? "Activo" : "Inactivo"));
     }
 

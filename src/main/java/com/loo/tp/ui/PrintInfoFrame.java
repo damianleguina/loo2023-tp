@@ -16,7 +16,7 @@ import com.loo.tp.controllers.PrintController;
 import com.loo.tp.entities.Print;
 import com.loo.tp.utils.InstantUtils;
 
-public class PrintInfoFrame extends ContextualFrame<Object[]> {
+public class PrintInfoFrame extends ContextFrame<Object[]> {
     private PrintController printController;
 
     private Print print;
@@ -38,7 +38,7 @@ public class PrintInfoFrame extends ContextualFrame<Object[]> {
     @Override
     protected void init() {
         this.printController = ControllerFactory.getPrintController();
-        Pair<Boolean, Print> result = printController.getById((long) this.context[0]);
+        var result = printController.getById((long) this.context[0]);
         this.print = result.getValue1();
     }
 

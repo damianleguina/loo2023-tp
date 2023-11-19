@@ -70,7 +70,6 @@ public class PrintsListFrame extends AppFrame implements ListSelectionListener {
 
     @Override
     protected void render() {
-        this.setPreferredSize(new Dimension(800, 400));
         this.renderCenterPanel();
         this.renderSouthPanel();
     }
@@ -106,7 +105,7 @@ public class PrintsListFrame extends AppFrame implements ListSelectionListener {
 
     private DefaultTableModel getTableModel() {
         // User[] users = userController.getUsers().getValue1();
-        Pair<Boolean, Print[]> result = printController.get();
+        var result = printController.get();
         var prints = result.getValue1();
         String[] columnNames = { "Id", "Usuario", "Cantidad", "Calidad", "Estado", "Fecha inicio", "Fecha fin",
                 "Fecha entrega" };
