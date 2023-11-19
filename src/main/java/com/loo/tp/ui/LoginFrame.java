@@ -35,9 +35,10 @@ public class LoginFrame extends AppFrame {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == loginButton) {
+        var source = e.getSource();
+        if (source == loginButton) {
             this.handleLogin();
-        } else {
+        } else if (source == cancelButton) {
             this.handleCancel();
         }
     }

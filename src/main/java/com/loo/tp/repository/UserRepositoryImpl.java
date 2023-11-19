@@ -13,9 +13,28 @@ public class UserRepositoryImpl extends BaseRepository<User> implements UserRepo
         throw new UnsupportedOperationException("Unimplemented method 'add'");
     }
 
+    @Override
+    public User[] get() {
+        int aux = 0;
+        for (int i = 0; i < data.length; i++) {
+            if (data[i] != null) {
+                aux++;
+            }
+        }
+        User[] result = new User[aux];
+        aux = 0;
+        for (int i = 0; i < data.length; i++) {
+            if (data[i] != null) {
+                result[aux] = data[i];
+                aux++;
+            }
+        }
+        return result;
+    }
+
     public User getByCredentials(String name, String password) {
         for (User user : data) {
-            if (user.getName().equals(name) && user.getPassword().equals(password)) {
+            if (user != null && user.getName().equals(name) && user.getPassword().equals(password)) {
                 return user;
             }
         }
@@ -34,11 +53,11 @@ public class UserRepositoryImpl extends BaseRepository<User> implements UserRepo
     }
 
     private static User[] populate() {
-        return new User[] {
-                new User(1, "Blinky", "qwerty", true),
-                new User(1, "Pinky", "dvorak", false),
-                new User(1, "Inky", "colemak", false),
-                new User(1, "Clyde", "qwerty", false),
-        };
+        var users = new User[20];
+        users[0] = new User(0, "Blinky", "qwerty", true);
+        users[1] = new User(0, "Pinky", "dvorak", false);
+        users[2] = new User(0, "Inky", "colemak", false);
+        users[3] = new User(0, "Clyde", "qwerty", false);
+        return users;
     }
 }
