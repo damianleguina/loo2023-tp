@@ -1,25 +1,18 @@
 package com.loo.tp.ui;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import com.loo.tp.ControllerFactory;
 import com.loo.tp.controllers.UserController;
 import com.loo.tp.entities.User;
-import com.loo.tp.ui.builder.FormBuilder;
+import com.loo.tp.ui.utils.builder.ActionPanelBuilder;
+import com.loo.tp.ui.utils.builder.FormPanelBuilder;
 
 public class AddUserFrame extends AppFrame {
     private UserController userController;
@@ -56,23 +49,23 @@ public class AddUserFrame extends AppFrame {
 
     // region Private Methods
     private void renderCenterPanel() {
-        var formBuilder = new FormBuilder();
+        var formBuilder = new FormPanelBuilder();
 
         usernameTextField = formBuilder.addTextField("Nombre del usuario:");
         passwordField = formBuilder.addPasswordField("Contraseña:");
         repeatPasswordField = formBuilder.addPasswordField("Repetir contraseña:");
-        isAdminCheckBox = formBuilder.addCheckboxField("¿Es administrador?   ");
+        isAdminCheckBox = formBuilder.addCheckbox("¿Es administrador?   ");
 
-        this.add(formBuilder.getFormPanel(), BorderLayout.CENTER);
+        this.add(formBuilder.build(), BorderLayout.CENTER);
     }
 
     private void renderSouthPanel() {
-        var panel = new JPanel();
-        goBackButton = createButton("Volver", panel);
+        var actionPanelBuilder = new ActionPanelBuilder(this);
 
-        addUserButton = this.createButton("Agregar usuario", panel);
+        goBackButton = actionPanelBuilder.createButton("Volver");
+        addUserButton = actionPanelBuilder.createButton("Agregar usuario");
 
-        this.add(panel, BorderLayout.SOUTH);
+        this.add(actionPanelBuilder.build(), BorderLayout.SOUTH);
     }
 
     // region Action Handlers

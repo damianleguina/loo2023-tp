@@ -4,23 +4,21 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import com.loo.tp.ControllerFactory;
 import com.loo.tp.controllers.UserController;
 import com.loo.tp.entities.User;
+import com.loo.tp.ui.utils.builder.ActionPanelBuilder;
+import com.loo.tp.ui.utils.table.TableFrame;
+import com.loo.tp.ui.utils.table.TableWrapper;
 
-public class UsersListFrame extends AppFrame implements ListSelectionListener {
+public class UsersListFrame extends AppFrame implements TableFrame {
     private UserController userController;
 
     private Object[][] data;
-    private JTable table;
+    private TableWrapper table;
     private JButton goBackButton;
     private JButton changeUserStatusButton;
     private JButton viewUserButton;
@@ -50,7 +48,7 @@ public class UsersListFrame extends AppFrame implements ListSelectionListener {
 
     @Override
     public void valueChanged(ListSelectionEvent arg0) {
-        int[] indexes = this.table.getSelectionModel().getSelectedIndices();
+        int[] indexes = this.table.getSelectedIndexes();
 
         this.changeUserStatusButton.setVisible(false);
         this.viewUserButton.setVisible(false);
@@ -68,6 +66,24 @@ public class UsersListFrame extends AppFrame implements ListSelectionListener {
             this.deactivateUsersButton.setVisible(true);
             this.activateUsersButton.setVisible(true);
         }
+    }
+
+    public DefaultTableModel getTableModel() {
+        User[] users = userController.getUsers().getValue1();
+        String[] columnNames = { "Id", "Usuario", "Estado", "Administrador" };
+        data = new Object[users.length][];
+        for (int i = 0; i < users.length; i++) {
+            User user = users[i];
+            data[i] = new Object[] {
+                    user.getId(),
+                    user.getName(),
+                    user.isActive() ? "Activo" : "Inactivo",
+                    user.isAdmin() ? "Si" : "No",
+                    user
+            };
+        }
+
+        return new DefaultTableModel(data, columnNames);
     }
     // endregion Event Handlers
 
@@ -92,65 +108,37 @@ public class UsersListFrame extends AppFrame implements ListSelectionListener {
 
     // region Private Methods
     private void renderCenterPanel() {
-        var model = getTableModel();
-        table = new JTable(model);
-        table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        table.setDefaultEditor(Object.class, null);
-        var listSelectionModel = table.getSelectionModel();
-        listSelectionModel.addListSelectionListener(this);
-        this.add(new JScrollPane(table), BorderLayout.CENTER);
+        this.table = new TableWrapper(this);
+        this.add(this.table.getTablePane(), BorderLayout.CENTER);
     }
 
     private void renderSouthPanel() {
-        var panel = new JPanel();
-        goBackButton = createButton("Volver", panel);
+        var actionPanelBuilder = new ActionPanelBuilder(this);
 
-        changeUserStatusButton = this.createButton("", panel);
-        changeUserStatusButton.setVisible(false);
+        this.goBackButton = actionPanelBuilder.createButton("Volver");
 
-        viewUserButton = this.createButton("Administrar usuario", panel);
-        viewUserButton.setVisible(false);
+        this.changeUserStatusButton = actionPanelBuilder.createButton("");
+        this.changeUserStatusButton.setVisible(false);
 
-        deactivateUsersButton = this.createButton("Desactivar usuarios", panel);
-        deactivateUsersButton.setVisible(false);
+        this.viewUserButton = actionPanelBuilder.createButton("Administrar usuario");
+        this.viewUserButton.setVisible(false);
 
-        activateUsersButton = this.createButton("Activar usuarios", panel);
-        activateUsersButton.setVisible(false);
+        this.deactivateUsersButton = actionPanelBuilder.createButton("Desactivar usuarios");
+        this.deactivateUsersButton.setVisible(false);
 
-        this.add(panel, BorderLayout.SOUTH);
-    }
+        this.activateUsersButton = actionPanelBuilder.createButton("Activar usuarios");
+        this.activateUsersButton.setVisible(false);
 
-    private DefaultTableModel getTableModel() {
-        User[] users = userController.getUsers().getValue1();
-        String[] columnNames = { "Id", "Usuario", "Estado", "Administrador" };
-        data = new Object[users.length][];
-        for (int i = 0; i < users.length; i++) {
-            User user = users[i];
-            data[i] = new Object[] {
-                    user.getId(),
-                    user.getName(),
-                    user.isActive() ? "Activo" : "Inactivo",
-                    user.isAdmin() ? "Si" : "No",
-                    user
-            };
-        }
-
-        return new DefaultTableModel(data, columnNames);
-    }
-
-    private void refreshModel() {
-        var model = getTableModel();
-        this.table.setModel(model);
-        model.fireTableDataChanged();
+        this.add(actionPanelBuilder.build(), BorderLayout.SOUTH);
     }
 
     private User getSelectedUser() {
-        int index = this.table.getSelectionModel().getSelectedIndices()[0];
+        int index = this.table.getSelectedIndexes()[0];
         return (User) data[index][4];
     }
 
     private User[] getSelectedUsers() {
-        int[] indexes = this.table.getSelectionModel().getSelectedIndices();
+        int[] indexes = this.table.getSelectedIndexes();
         User[] users = new User[indexes.length];
         for (int i = 0; i < indexes.length; i++) {
             users[i] = (User) data[indexes[i]][4];
@@ -180,14 +168,14 @@ public class UsersListFrame extends AppFrame implements ListSelectionListener {
             this.showErrorDialog(result.getValue2());
             return;
         }
-        this.refreshModel();
+        this.table.refreshModel();
     }
 
     private void handleViewUserButtonClicked() {
         var user = this.getSelectedUser();
         new UserInfoFrame(user.getId());
         this.close();
-        this.refreshModel();
+        this.table.refreshModel();
     }
 
     private void handleDeactivateUsersButtonClicked() {
@@ -197,7 +185,7 @@ public class UsersListFrame extends AppFrame implements ListSelectionListener {
             this.showErrorDialog(result.getValue2());
             return;
         }
-        this.refreshModel();
+        this.table.refreshModel();
     }
 
     private void handleActivateUsersButtonClicked() {
@@ -207,7 +195,7 @@ public class UsersListFrame extends AppFrame implements ListSelectionListener {
             this.showErrorDialog(result.getValue2());
             return;
         }
-        this.refreshModel();
+        this.table.refreshModel();
     }
     // endregion Action Handlers
     // endregion Private Methods

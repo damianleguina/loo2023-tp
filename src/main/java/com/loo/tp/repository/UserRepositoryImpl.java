@@ -41,7 +41,7 @@ public class UserRepositoryImpl extends BaseRepository<User> implements UserRepo
     @Override
     public User changeStatus(long userId, boolean status) {
         for (User user : data) {
-            if (user.getId() == userId) {
+            if (user != null && user.getId() == userId) {
                 user.setActive(status);
                 return user;
             }
@@ -53,7 +53,7 @@ public class UserRepositoryImpl extends BaseRepository<User> implements UserRepo
     public long changeStatus(long[] userIds, boolean status) {
         int result = 0;
         for (User user : data) {
-            if (ArrayUtils.contains(userIds, user.getId())) {
+            if (user != null && ArrayUtils.contains(userIds, user.getId())) {
                 user.setActive(status);
                 result++;
             }

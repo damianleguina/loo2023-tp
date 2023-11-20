@@ -15,13 +15,12 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
-import org.javatuples.Pair;
-
 import com.loo.tp.ControllerFactory;
 import com.loo.tp.controllers.PrintController;
 import com.loo.tp.controllers.UserController;
 import com.loo.tp.entities.Print;
 import com.loo.tp.entities.User;
+import com.loo.tp.ui.utils.builder.ActionPanelBuilder;
 import com.loo.tp.utils.InstantUtils;
 
 public class UserInfoFrame extends ContextFrame<Long> implements ListSelectionListener {
@@ -120,13 +119,14 @@ public class UserInfoFrame extends ContextFrame<Long> implements ListSelectionLi
     }
 
     private void renderSouthPanel() {
-        JPanel panel = new JPanel();
-        // panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        this.goBackButton = this.createButton("Volver", panel);
-        this.changeStatusButton = this.createButton("Cambiar estado", panel);
-        this.viewPrintButton = this.createButton("Ver trabajo", panel);
+        var actionPanelBuilder = new ActionPanelBuilder(this);
+
+        this.goBackButton = actionPanelBuilder.createButton("Volver");
+        this.changeStatusButton = actionPanelBuilder.createButton("Cambiar estado");
+        this.viewPrintButton = actionPanelBuilder.createButton("Ver trabajo");
         this.viewPrintButton.setVisible(false);
-        this.add(panel, BorderLayout.SOUTH);
+
+        this.add(actionPanelBuilder.build(), BorderLayout.SOUTH);
     }
 
     private DefaultTableModel getTableModel() {
@@ -175,6 +175,6 @@ public class UserInfoFrame extends ContextFrame<Long> implements ListSelectionLi
     }
 
     private Print getSelectedPrint() {
-        return (Print)data[selectedRow][7];
+        return (Print) data[selectedRow][7];
     }
 }

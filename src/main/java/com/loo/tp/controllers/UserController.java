@@ -1,6 +1,5 @@
 package com.loo.tp.controllers;
 
-import org.javatuples.Pair;
 import org.javatuples.Triplet;
 
 import com.loo.tp.entities.User;

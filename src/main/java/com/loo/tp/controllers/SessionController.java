@@ -3,11 +3,9 @@ package com.loo.tp.controllers;
 import com.loo.tp.entities.User;
 import com.loo.tp.session.SessionManager;
 
-public class SessionController {
-    private SessionManager sessionManager;
-
+public class SessionController extends BaseController {
     public SessionController(SessionManager sessionManager) {
-        this.sessionManager = sessionManager;
+        super(sessionManager);
     }
 
     public boolean isLoggedIn() {
@@ -15,7 +13,11 @@ public class SessionController {
     }
 
     public User getCurrentUser() {
-        return sessionManager.getUser();
+        return super.getCurrentUser();
+    }
+
+    public long getCurrentUserId() {
+        return super.getCurrentUserId();
     }
 
     public void Logout() {

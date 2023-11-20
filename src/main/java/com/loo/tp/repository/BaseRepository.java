@@ -56,7 +56,7 @@ public abstract class BaseRepository<T extends Entity> implements Repository<T> 
 
     public boolean delete(long id) {
         for (int i = 0; i < data.length; i++) {
-            if (data[i].getId() == id) {
+            if (data[i] != null && data[i].getId() == id) {
                 data[i] = null;
                 return true;
             }

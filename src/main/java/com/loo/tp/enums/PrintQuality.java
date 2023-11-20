@@ -15,4 +15,13 @@ public enum PrintQuality {
         return text;
     }
 
+    public static PrintQuality findByValue(String value) {
+        for (PrintQuality printQuality : values()) {
+            if (printQuality.toString().equals(value)) {
+                return printQuality;
+            }
+        }
+        return null;
+    }
+
 }

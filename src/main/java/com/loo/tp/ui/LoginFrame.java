@@ -1,24 +1,17 @@
 package com.loo.tp.ui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import com.loo.tp.ControllerFactory;
 import com.loo.tp.controllers.SessionController;
 import com.loo.tp.controllers.UserController;
+import com.loo.tp.ui.utils.builder.ActionPanelBuilder;
+import com.loo.tp.ui.utils.builder.FormPanelBuilder;
 
 public class LoginFrame extends AppFrame {
     private SessionController sessionController;
@@ -27,6 +20,7 @@ public class LoginFrame extends AppFrame {
     private JTextField usernameTextField;
     private JPasswordField passwordField;
     private JButton loginButton;
+    private JButton exitButton;
 
     public LoginFrame() {
         super();
@@ -36,9 +30,9 @@ public class LoginFrame extends AppFrame {
     public void actionPerformed(ActionEvent e) {
         var source = e.getSource();
         if (source == loginButton) {
-            this.handleLogin();
-        } else {
-            this.handleCancel();
+            this.handleLoginButtonClicked();
+        } else if (source == exitButton) {
+            this.handleExitButtonClicked();
         }
     }
 
@@ -54,11 +48,6 @@ public class LoginFrame extends AppFrame {
     }
 
     @Override
-    protected void setDefaultSize() {
-        this.setPreferredSize(new Dimension(300, 110));
-    }
-
-    @Override
     protected void onFailure() {
         new MenuFrame();
         this.close();
@@ -66,40 +55,27 @@ public class LoginFrame extends AppFrame {
 
     @Override
     protected void render() {
-        this.setLocationRelativeTo(null);
         this.renderNorthPanel();
         this.renderSouthPanel();
     }
 
     private void renderNorthPanel() {
-        var panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.add(Box.createRigidArea(new Dimension(10, 5)));
+        var formBuilder = new FormPanelBuilder();
 
-        var userFieldPanel = new JPanel();
-        userFieldPanel.setLayout(new GridLayout(0, 2));
-        this.usernameTextField = new JTextField();
-        userFieldPanel.add(new JLabel("Usuario: "));
-        userFieldPanel.add(this.usernameTextField);
-        panel.add(userFieldPanel);
+        usernameTextField = formBuilder.addTextField("Usuario:");
+        passwordField = formBuilder.addPasswordField("Contraseña:");
 
-        var passwordFieldPanel = new JPanel();
-        passwordFieldPanel.setLayout(new GridLayout(0, 2));
-        this.passwordField = new JPasswordField();
-        passwordFieldPanel.add(new JLabel("Contraseña: "));
-        passwordFieldPanel.add(this.passwordField);
-        panel.add(passwordFieldPanel);
-
-        this.add(panel,BorderLayout.NORTH);
+        this.add(formBuilder.build(), BorderLayout.CENTER);
     }
 
     private void renderSouthPanel() {
-        JPanel panel = new JPanel();
-        this.loginButton = this.createButton("Ingresar", panel);
-        this.add(panel,BorderLayout.SOUTH);
+        var actionPanelBuilder = new ActionPanelBuilder(this);
+        this.exitButton = actionPanelBuilder.createButton("Salir");
+        this.loginButton = actionPanelBuilder.createButton("Ingresar");
+        this.add(actionPanelBuilder.build(), BorderLayout.SOUTH);
     }
 
-    private void handleLogin() {
+    private void handleLoginButtonClicked() {
         var username = usernameTextField.getText();
         if (username == null || username.equals("")) {
             this.showErrorDialog("El campo 'Usuario' tiene un valor inválido.");
@@ -121,7 +97,7 @@ public class LoginFrame extends AppFrame {
         this.dispose();
     }
 
-    private void handleCancel() {
+    private void handleExitButtonClicked() {
         this.dispose();
     }
 }

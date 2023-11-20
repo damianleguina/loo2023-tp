@@ -1,6 +1,4 @@
 package com.loo.tp.controllers;
-
-import org.javatuples.Pair;
 import org.javatuples.Triplet;
 
 import com.loo.tp.entities.User;
@@ -25,6 +23,13 @@ public abstract class BaseController {
 
     protected User getCurrentUser() {
         return sessionManager.getUser();
+    }
+
+    protected long getCurrentUserId() {
+        var currentUser = this.getCurrentUser();
+        return currentUser != null
+                ? currentUser.getId()
+                : 0;
     }
 
     protected boolean isAdmin() {

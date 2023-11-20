@@ -18,4 +18,12 @@ public enum PrintStatus {
         return text;
     }
 
+    public static PrintStatus findByValue(String value) {
+        for (PrintStatus printStatus : values()) {
+            if (printStatus.toString().equals(value)) {
+                return printStatus;
+            }
+        }
+        return null;
+    }
 }

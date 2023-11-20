@@ -16,6 +16,7 @@ import com.loo.tp.ControllerFactory;
 import com.loo.tp.controllers.PrintController;
 import com.loo.tp.entities.Print;
 import com.loo.tp.enums.PrintStatus;
+import com.loo.tp.ui.utils.builder.ActionPanelBuilder;
 import com.loo.tp.utils.InstantUtils;
 
 public class PrintInfoFrame extends ContextFrame<Object[]> {
@@ -92,10 +93,12 @@ public class PrintInfoFrame extends ContextFrame<Object[]> {
 
         statusPanel.add(new JLabel("Cambiar estado"));
         var statusComboBox = new JComboBox<String>(new String[] {
-            PrintStatus.PENDING.toString(),
-            PrintStatus.RECEIVED.toString(),
-            PrintStatus.IN_PROGRESS.toString(),
-            PrintStatus.FINISHED.toString(),
+                PrintStatus.PENDING.toString(),
+                PrintStatus.RECEIVED.toString(),
+                PrintStatus.IN_PROGRESS.toString(),
+                PrintStatus.FINISHED.toString(),
+                PrintStatus.DELIVERED.toString()
+
         });
         statusPanel.add(statusComboBox);
         panel.add(statusPanel);
@@ -103,9 +106,11 @@ public class PrintInfoFrame extends ContextFrame<Object[]> {
     }
 
     private void renderSouthPanel() {
-        var panel = new JPanel();
-        this.goBackButton = this.createButton("Volver", panel);
-        this.add(panel, BorderLayout.SOUTH);
+        var actionPanelBuilder = new ActionPanelBuilder(this);
+
+        this.goBackButton = actionPanelBuilder.createButton("Volver");
+        
+        this.add(actionPanelBuilder.build(), BorderLayout.SOUTH);
     }
 
     private void handleGoBackButton() {

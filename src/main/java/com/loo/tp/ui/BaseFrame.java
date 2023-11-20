@@ -1,10 +1,8 @@
 package com.loo.tp.ui;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 
@@ -40,17 +38,6 @@ public abstract class BaseFrame extends JFrame implements ActionListener {
 
     protected void onFailure() {
         this.close();
-    }
-
-    protected JButton createButton(String label, Container container) {
-        var button = new JButton(label);
-        button.addActionListener(this);
-        container.add(button);
-        return button;
-    }
-
-    protected JButton createButton(String label) {
-        return this.createButton(label, this);
     }
 
     protected void showErrorDialog(String message) {

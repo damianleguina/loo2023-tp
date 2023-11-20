@@ -1,5 +1,6 @@
 package com.loo.tp;
 
+import com.loo.tp.ui.AddPrintFrame;
 import com.loo.tp.ui.AddUserFrame;
 import com.loo.tp.ui.LoginFrame;
 import com.loo.tp.ui.MenuFrame;
@@ -12,8 +13,9 @@ public class App {
     public static void main(String[] args) {
         ControllerFactory.init();
         var userController = ControllerFactory.getUserController();
-        userController.getUser("Blinky", "qwerty");
-        new PrintsListFrame();
-        // new LoginFrame();
+        // userController.getUser("Pinky", "dvorak");
+        // userController.getUser("Blinky", "qwerty");
+        // new PrintsListFrame();
+        new LoginFrame();
     }
 }
