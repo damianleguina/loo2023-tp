@@ -64,11 +64,10 @@ public class MenuFrame extends AppFrame {
     @Override
     protected void render() {
         var panel = new JPanel();
-
+        panel.add(Box.createRigidArea(new Dimension(5, 5)));
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         if (this.currentUser.isAdmin()) {
-            panel.add(Box.createRigidArea(new Dimension(10, 10)));
             this.listUsersButton = this.createButton("Usuarios", panel);
 
             panel.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -84,7 +83,7 @@ public class MenuFrame extends AppFrame {
         }
         panel.add(Box.createRigidArea(new Dimension(0, 10)));
         this.logoutButton = this.createButton("Salir", panel);
-        this.add(panel, BorderLayout.WEST);
+        this.add(panel, BorderLayout.CENTER);
     }
 
     private void handleListUsersButtonClicked() {

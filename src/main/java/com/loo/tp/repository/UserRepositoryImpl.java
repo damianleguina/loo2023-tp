@@ -10,10 +10,6 @@ public class UserRepositoryImpl extends BaseRepository<User> implements UserRepo
         super(populate());
     }
 
-    public User add(User entity) {
-        throw new UnsupportedOperationException("Unimplemented method 'add'");
-    }
-
     @Override
     public User[] get() {
         int aux = 0;

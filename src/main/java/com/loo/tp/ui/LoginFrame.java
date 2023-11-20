@@ -24,7 +24,7 @@ public class LoginFrame extends AppFrame {
     private SessionController sessionController;
     private UserController userController;
 
-    private JTextField userNameTextField;
+    private JTextField usernameTextField;
     private JPasswordField passwordField;
     private JButton loginButton;
 
@@ -67,20 +67,20 @@ public class LoginFrame extends AppFrame {
     @Override
     protected void render() {
         this.setLocationRelativeTo(null);
-        this.renderFormPanel();
-        this.renderActionPanel();
+        this.renderNorthPanel();
+        this.renderSouthPanel();
     }
 
-    private void renderFormPanel() {
+    private void renderNorthPanel() {
         var panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.add(Box.createRigidArea(new Dimension(10, 5)));
 
         var userFieldPanel = new JPanel();
         userFieldPanel.setLayout(new GridLayout(0, 2));
-        this.userNameTextField = new JTextField();
+        this.usernameTextField = new JTextField();
         userFieldPanel.add(new JLabel("Usuario: "));
-        userFieldPanel.add(this.userNameTextField);
+        userFieldPanel.add(this.usernameTextField);
         panel.add(userFieldPanel);
 
         var passwordFieldPanel = new JPanel();
@@ -93,27 +93,27 @@ public class LoginFrame extends AppFrame {
         this.add(panel,BorderLayout.NORTH);
     }
 
-    private void renderActionPanel() {
+    private void renderSouthPanel() {
         JPanel panel = new JPanel();
         this.loginButton = this.createButton("Ingresar", panel);
         this.add(panel,BorderLayout.SOUTH);
     }
 
     private void handleLogin() {
-        var userName = userNameTextField.getText();
-        if (userName == null || userName.equals("")) {
-            this.showErrorDialog("El campo 'Usuario' tiene un valor inválido");
+        var username = usernameTextField.getText();
+        if (username == null || username.equals("")) {
+            this.showErrorDialog("El campo 'Usuario' tiene un valor inválido.");
             return;
         }
         var password = new String(passwordField.getPassword());
         if (password == null || password.equals("")) {
-            this.showErrorDialog("El campo 'Contraseña' tiene un valor inválido");
+            this.showErrorDialog("El campo 'Contraseña' tiene un valor inválido.");
             return;
         }
 
-        var response = userController.getUser(userNameTextField.getText(), new String(passwordField.getPassword()));
+        var response = userController.getUser(usernameTextField.getText(), new String(passwordField.getPassword()));
         if (!response.getValue0()) {
-            this.showErrorDialog("El usuario o la contraseña es incorrecta");
+            this.showErrorDialog(response.getValue2());
             return;
         }
 

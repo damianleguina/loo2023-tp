@@ -15,8 +15,8 @@ public class UserController extends BaseController {
         this.userRepository = userRepository;
     }
 
-    public Triplet<Boolean, User, String> getUser(String userName, String password) {
-        User user = userRepository.getByCredentials(userName, password);
+    public Triplet<Boolean, User, String> getUser(String username, String password) {
+        User user = userRepository.getByCredentials(username, password);
         if (user != null) {
             sessionManager.setUser(user);
             return Ok(user);
@@ -41,6 +41,30 @@ public class UserController extends BaseController {
                 : Error(null);
     }
 
+    public Triplet<Boolean, User, String> addUser(User newUser) {
+        if (!this.isAdmin()) {
+            return Error(USER_IS_NOT_ADMIN_ERROR_MESSAGE);
+        }
+        if (newUser.getName() == null || newUser.getName().equals("")) {
+            return Error("El campo 'Nombre' tiene un valor inválido.");
+        }
+        if (newUser.getPassword() == null || newUser.getPassword().equals("")) {
+            return Error("El campo 'Contraseña' tiene un valor inválido.");
+        }
+
+        var users = userRepository.get();
+        for (User user : users) {
+            if (user.getName().equals(newUser.getName())) {
+                return Error("Ya existe un usuario con ese nombre.");
+            }
+        }
+
+        var user = userRepository.add(newUser);
+        return user != null
+                ? Ok(user)
+                : Error("Error al guardar el usuario.");
+    }
+
     public Triplet<Boolean, User, String> changeStatus(long userId, boolean status) {
         if (!this.isAdmin()) {
             return Error(USER_IS_NOT_ADMIN_ERROR_MESSAGE);
@@ -51,7 +75,7 @@ public class UserController extends BaseController {
         var user = userRepository.changeStatus(userId, status);
         return user != null
                 ? Ok(user)
-                : Error(null);
+                : Error("Error al modificar el estado del usuario.");
     }
 
     public Triplet<Boolean, Long, String> changeStatus(long userIds[], boolean status) {

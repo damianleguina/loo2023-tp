@@ -31,7 +31,7 @@ public class UsersListFrame extends AppFrame implements ListSelectionListener {
         super();
     }
 
-    // region Event Handlers
+    // region Protected Methods
     @Override
     public void actionPerformed(ActionEvent arg0) {
         var source = arg0.getSource();
@@ -85,13 +85,13 @@ public class UsersListFrame extends AppFrame implements ListSelectionListener {
 
     @Override
     protected void render() {
-        getCenterPanel();
-        getSouthPanel();
+        renderCenterPanel();
+        renderSouthPanel();
     }
     // endregion Protected Methods
 
     // region Private Methods
-    private void getCenterPanel() {
+    private void renderCenterPanel() {
         var model = getTableModel();
         table = new JTable(model);
         table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -101,7 +101,7 @@ public class UsersListFrame extends AppFrame implements ListSelectionListener {
         this.add(new JScrollPane(table), BorderLayout.CENTER);
     }
 
-    private void getSouthPanel() {
+    private void renderSouthPanel() {
         var panel = new JPanel();
         goBackButton = createButton("Volver", panel);
 

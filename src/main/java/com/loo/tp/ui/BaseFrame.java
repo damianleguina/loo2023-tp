@@ -57,4 +57,9 @@ public abstract class BaseFrame extends JFrame implements ActionListener {
         JOptionPane.showMessageDialog(null, message, "Error",
                 JOptionPane.ERROR_MESSAGE, null);
     }
+
+    protected void showSuccessDialog(String message) {
+        JOptionPane.showMessageDialog(null, message, "Éxito",
+                JOptionPane.INFORMATION_MESSAGE, null);
+    }
 }
