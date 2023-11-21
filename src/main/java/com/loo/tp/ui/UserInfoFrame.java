@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.loo.tp.ControllerFactory;
 import com.loo.tp.controllers.PrintController;
+import com.loo.tp.controllers.SessionController;
 import com.loo.tp.controllers.UserController;
 import com.loo.tp.entities.Print;
 import com.loo.tp.entities.User;
@@ -24,6 +25,7 @@ import com.loo.tp.ui.utils.builder.ActionPanelBuilder;
 import com.loo.tp.utils.InstantUtils;
 
 public class UserInfoFrame extends ContextFrame<Long> implements ListSelectionListener {
+    private SessionController sessionController;
     private UserController userController;
     private PrintController printController;
 
@@ -69,6 +71,7 @@ public class UserInfoFrame extends ContextFrame<Long> implements ListSelectionLi
 
     @Override
     protected void init() {
+        this.sessionController = ControllerFactory.getSessionController();
         this.userController = ControllerFactory.getUserController();
         this.printController = ControllerFactory.getPrintController();
         var result = userController.getById(this.context);
@@ -123,6 +126,9 @@ public class UserInfoFrame extends ContextFrame<Long> implements ListSelectionLi
 
         this.goBackButton = actionPanelBuilder.createButton("Volver");
         this.changeStatusButton = actionPanelBuilder.createButton("Cambiar estado");
+        if (this.user.getId() == this.sessionController.getCurrentUserId()) {
+            this.changeStatusButton.setVisible(false);
+        }
         this.viewPrintButton = actionPanelBuilder.createButton("Ver trabajo");
         this.viewPrintButton.setVisible(false);
 

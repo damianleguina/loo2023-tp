@@ -13,7 +13,6 @@ import com.loo.tp.controllers.PrintController;
 import com.loo.tp.controllers.SessionController;
 import com.loo.tp.entities.Print;
 import com.loo.tp.enums.PrintQuality;
-import com.loo.tp.enums.PrintStatus;
 import com.loo.tp.ui.utils.builder.ActionPanelBuilder;
 import com.loo.tp.ui.utils.builder.FormPanelBuilder;
 

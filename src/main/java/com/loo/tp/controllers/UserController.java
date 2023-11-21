@@ -7,6 +7,7 @@ import com.loo.tp.repository.interfaces.UserRepository;
 import com.loo.tp.session.SessionManager;
 
 public class UserController extends BaseController {
+    private static final String USER_CANNOT_ALTER_ITSELF_MSG = "Un usuario no puede modificar su propio estado.";
     private UserRepository userRepository;
 
     public UserController(UserRepository userRepository, SessionManager sessionManager) {
@@ -25,14 +26,14 @@ public class UserController extends BaseController {
 
     public Triplet<Boolean, User[], String> getUsers() {
         if (!this.isAdmin()) {
-            return Error(USER_IS_NOT_ADMIN_ERROR_MESSAGE);
+            return Error(USER_IS_NOT_ADMIN_ERROR_MSG);
         }
         return Ok(userRepository.get());
     }
 
     public Triplet<Boolean, User, String> getById(long userId) {
         if (!this.isAdmin()) {
-            return Error(USER_IS_NOT_ADMIN_ERROR_MESSAGE);
+            return Error(USER_IS_NOT_ADMIN_ERROR_MSG);
         }
         var user = userRepository.getById(userId);
         return user != null
@@ -42,7 +43,7 @@ public class UserController extends BaseController {
 
     public Triplet<Boolean, User, String> addUser(User newUser) {
         if (!this.isAdmin()) {
-            return Error(USER_IS_NOT_ADMIN_ERROR_MESSAGE);
+            return Error(USER_IS_NOT_ADMIN_ERROR_MSG);
         }
         if (newUser.getName() == null || newUser.getName().equals("")) {
             return Error("El campo 'Nombre' tiene un valor inválido.");
@@ -66,10 +67,10 @@ public class UserController extends BaseController {
 
     public Triplet<Boolean, User, String> changeStatus(long userId, boolean status) {
         if (!this.isAdmin()) {
-            return Error(USER_IS_NOT_ADMIN_ERROR_MESSAGE);
+            return Error(USER_IS_NOT_ADMIN_ERROR_MSG);
         }
         if (sessionManager.getUser().getId() == userId) {
-            return Error("Un usuario no puede modificar su propio estado.");
+            return Error(USER_CANNOT_ALTER_ITSELF_MSG);
         }
         var user = userRepository.changeStatus(userId, status);
         return user != null
@@ -79,12 +80,12 @@ public class UserController extends BaseController {
 
     public Triplet<Boolean, Long, String> changeStatus(long userIds[], boolean status) {
         if (!this.isAdmin()) {
-            return Error(USER_IS_NOT_ADMIN_ERROR_MESSAGE);
+            return Error(USER_IS_NOT_ADMIN_ERROR_MSG);
         }
         long currentUserId = sessionManager.getUser().getId();
         for (long userId : userIds) {
             if (userId == currentUserId) {
-            return Error("Un usuario no puede modificar su propio estado.");
+                return Error(USER_CANNOT_ALTER_ITSELF_MSG);
             }
         }
         var modified = userRepository.changeStatus(userIds, status);

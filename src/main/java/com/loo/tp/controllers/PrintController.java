@@ -27,7 +27,7 @@ public class PrintController extends BaseController {
 
     public Triplet<Boolean, Print[], String> get() {
         if (!this.isAdmin()) {
-            return Error(this.USER_IS_NOT_ADMIN_ERROR_MESSAGE);
+            return Error(this.USER_IS_NOT_ADMIN_ERROR_MSG);
         }
         var prints = printRepository.get();
         for (int i = 0; i < prints.length; i++) {
@@ -38,7 +38,7 @@ public class PrintController extends BaseController {
 
     public Triplet<Boolean, Print[], String> get(long userId) {
         if (!this.isAdmin() && this.getCurrentUserId() != userId) {
-            return Error(this.USER_IS_NOT_ADMIN_ERROR_MESSAGE);
+            return Error(this.USER_IS_NOT_ADMIN_ERROR_MSG);
         }
         var prints = printRepository.getByUserId(userId);
 
@@ -54,7 +54,7 @@ public class PrintController extends BaseController {
             return Error(this.PRINT_NOT_FOUND);
         }
         if (print.getUserId() != this.getCurrentUserId() && !this.isAdmin()) {
-            return Error(USER_IS_NOT_ADMIN_ERROR_MESSAGE);
+            return Error(USER_IS_NOT_ADMIN_ERROR_MSG);
         }
         print.setUser(userRepository.getById(print.getUserId()));
         return Ok(print);
@@ -75,7 +75,7 @@ public class PrintController extends BaseController {
 
     public Triplet<Boolean, Print, String> advanceStatus(long printId) {
         if (!this.isAdmin()) {
-            return Error(this.USER_IS_NOT_ADMIN_ERROR_MESSAGE);
+            return Error(this.USER_IS_NOT_ADMIN_ERROR_MSG);
         }
         var print = printRepository.getById(printId);
         if (print == null) {

@@ -53,7 +53,7 @@ public class PrintRepositoryImpl extends BaseRepository<Print> implements PrintR
     private static Print[] populate() {
         var data = new Print[20];
         data[0] = new Print(0, 2, PrintQuality.COLOR, 2, PrintStatus.IN_PROGRESS, Instant.now(), null, null);
-        data[1] = new Print(0, 3, PrintQuality.BLACK_AND_WHITE, 1, PrintStatus.RECEIVED, Instant.now(), null, null);
+        data[1] = new Print(0, 3, PrintQuality.BLACK_AND_WHITE, 1, PrintStatus.RECEIVED, null, null, null);
         data[2] = new Print(0, 2, PrintQuality.COLOR, 2, PrintStatus.PENDING, null, null, null);
         return data;
     }

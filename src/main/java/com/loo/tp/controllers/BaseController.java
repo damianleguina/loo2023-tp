@@ -5,7 +5,7 @@ import com.loo.tp.entities.User;
 import com.loo.tp.session.SessionManager;
 
 public abstract class BaseController {
-    protected final String USER_IS_NOT_ADMIN_ERROR_MESSAGE = "Usuario no es administrador.";
+    protected final String USER_IS_NOT_ADMIN_ERROR_MSG = "Usuario no es administrador.";
 
     protected SessionManager sessionManager;
 
