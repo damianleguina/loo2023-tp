@@ -26,4 +26,19 @@ public enum PrintStatus {
         }
         return null;
     }
+
+    public static PrintStatus getNexStatus(PrintStatus status) {
+        switch (status) {
+            case PENDING:
+                return PrintStatus.RECEIVED;
+            case RECEIVED:
+                return PrintStatus.IN_PROGRESS;
+            case IN_PROGRESS:
+                return PrintStatus.FINISHED;
+            case FINISHED:
+                return PrintStatus.DELIVERED;
+            default:
+                return null;
+        }
+    }
 }

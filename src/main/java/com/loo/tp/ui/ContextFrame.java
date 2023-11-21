@@ -11,6 +11,7 @@ public abstract class ContextFrame<T>  extends BaseFrame {
             this.onRender();
             return;
         }
+        this.showErrorDialog("No se puede crear el marco: " + this.getClass().getSimpleName());
         this.close();
     }
 }

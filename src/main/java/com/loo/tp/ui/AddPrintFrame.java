@@ -65,6 +65,8 @@ public class AddPrintFrame extends AppFrame {
         quantitySpinner = formBuilder.addSpinner("Cantidad:");
         var spinnerModel = new SpinnerNumberModel(1, 1, 10, 1);
         quantitySpinner.setModel(spinnerModel);
+        // Stolen from https://stackoverflow.com/questions/2902101/how-to-set-jspinner-as-non-editable
+        ((JSpinner.DefaultEditor) quantitySpinner.getEditor()).getTextField().setEditable(false);
 
         qualityComboBox = formBuilder.addComboBox("Calidad: ", new String[] {
                 PrintQuality.COLOR.toString(),
@@ -76,8 +78,7 @@ public class AddPrintFrame extends AppFrame {
 
     private void renderSouthPanel() {
         var actionPanelBuilder = new ActionPanelBuilder(this);
-        
-        
+
         goBackButton = actionPanelBuilder.createButton("Volver");
         addPrintButton = actionPanelBuilder.createButton("Agregar trabajo");
 
@@ -93,7 +94,7 @@ public class AddPrintFrame extends AppFrame {
     private void handleAddPrintButton() {
         int quantity;
         try {
-            quantity = (Integer)quantitySpinner.getValue();
+            quantity = (Integer) quantitySpinner.getValue();
         } catch (Exception e) {
             quantity = 0;
         }
@@ -107,11 +108,11 @@ public class AddPrintFrame extends AppFrame {
                 sessionController.getCurrentUserId(),
                 quality,
                 quantity,
-                PrintStatus.PENDING,
+                null,
                 null,
                 null,
                 null);
-        
+
         var response = printController.addPrint(print);
 
         if (!response.getValue0()) {

@@ -57,7 +57,7 @@ public class PrintsListFrame extends AppFrame implements TableFrame {
             this.viewPrintButton.setVisible(true);
         }
 
-        if (indexes.length == 1 && !this.adminMode && this.getSelectedPrint().getStatus() != PrintStatus.PENDING) {
+        if (indexes.length == 1 && !this.adminMode && this.getSelectedPrint().getStatus() == PrintStatus.PENDING) {
             this.deletePrintsButton.setVisible(true);
         }
 

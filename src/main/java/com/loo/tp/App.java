@@ -13,9 +13,9 @@ public class App {
     public static void main(String[] args) {
         ControllerFactory.init();
         var userController = ControllerFactory.getUserController();
-        // userController.getUser("Pinky", "dvorak");
         // userController.getUser("Blinky", "qwerty");
+        userController.getUser("Pinky", "dvorak");
         // new PrintsListFrame();
-        new LoginFrame();
+        new PrintsListFrame();
     }
 }
